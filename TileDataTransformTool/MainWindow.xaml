@@ -1,0 +1,143 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="TileDataTransformTool.MainWindow"
+        xmlns:themes="clr-namespace:WPF.Themes;assembly=WPF.Themes"
+        xmlns:self="clr-namespace:TileDataTransformTool"
+        themes:ThemeManager.Theme="{Binding ElementName=themes, Path=SelectedItem}"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="TransfromingTool" Height="330" Width="520" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStyle="SingleBorderWindow" Icon="connections.ico">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Map Range" HorizontalAlignment="Left" Height="84" Margin="10,8,0,0" VerticalAlignment="Top" Width="198"/>
+        <GroupBox Header="Level" HorizontalAlignment="Left" Height="84" Margin="213,8,0,0" VerticalAlignment="Top" Width="50"/>
+        <GroupBox Header="Excute" HorizontalAlignment="Left" Height="84" Margin="268,8,0,0" VerticalAlignment="Top" Width="226"/>
+        <Image Visibility="Hidden" x:Name="imagebox" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="None" Height="0" Width="0" />
+        <Image Visibility="Hidden" x:Name="bigiamgebox" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="None" Height="0" Width="0"/>
+        <Button x:Name="start" Content="Start" Click="start_Click" 
+			Margin="434,66,0,0" FontSize="12" MouseDoubleClick="start_MouseDoubleClick" HorizontalAlignment="Left" Width="55" Height="20" VerticalAlignment="Top"/>
+        <Label Content="Select  a " VerticalAlignment="Top" Padding="0" Margin="278,68,0,0" HorizontalAlignment="Left" Width="50"/>
+        <Label Content="and" VerticalAlignment="Top" Padding="0" Margin="407,68,0,0" HorizontalAlignment="Left"/>
+        <Button x:Name="filedir" Content="Save Path"  Click="filedir_Click" 
+			Margin="332,66,0,0" FontSize="12" HorizontalAlignment="Left" Width="70" Height="20" VerticalAlignment="Top"/>
+        <Label x:Name="KQLable" Visibility="Hidden" Content="KQ" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,4" Foreground="#3399FF" Grid.Row="1" Height="25" Width="27"/>
+        <Label x:Name="GoogleLbel" Visibility="Hidden" Content="Google" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,4" Foreground="#3399FF" Grid.Row="1" Height="25" Width="52"/>
+        <TextBox Visibility="Hidden" x:Name="Signal_L" HorizontalAlignment="Left" FontSize="10" Height="16" Margin="10,0,0,15" Grid.Row="1" TextWrapping="Wrap" Text="L" VerticalAlignment="Bottom" Width="30" ToolTip="KQ level" TextAlignment="Center" />
+        <TextBox Visibility="Hidden" x:Name="Signal_X" HorizontalAlignment="Left" FontSize="10" Height="16" Margin="50,0,0,10" Grid.Row="1" TextWrapping="Wrap" Text="X" VerticalAlignment="Bottom" Width="70" ToolTip="Longitude" TextAlignment="Center"/>
+        <TextBox Visibility="Hidden" x:Name="Signal_Y" HorizontalAlignment="Left" FontSize="10" Height="16" Margin="130,0,0,10" Grid.Row="1" TextWrapping="Wrap" Text="Y" VerticalAlignment="Bottom" Width="70" ToolTip="Latitude" TextAlignment="Center"/>
+
+        <Button Visibility="Hidden" x:Name="start_lxy" Content="开始" Click="start_lxy_Click"  Width="60" Height="20" 
+			Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" FontSize="10"/>
+
+        <TextBox x:Name="SUM_MinX" HorizontalAlignment="Left" Height="20" Margin="18,0,0,29" TextWrapping="Wrap" Text="minLon" VerticalAlignment="Bottom" Width="60" ToolTip="Minimum Longitude" Padding="1"  TextAlignment="Center" FontSize="12" />
+        <TextBox x:Name="SUM_MinY" HorizontalAlignment="Left" Height="20" Margin="79,0,0,14" TextWrapping="Wrap" Text="minLat" VerticalAlignment="Bottom" Width="60" ToolTip="Minimum Latitude" Padding="1" TextAlignment="Center" FontSize="12"/>
+        <TextBox x:Name="SUM_MaxX" HorizontalAlignment="Left" Height="20" Margin="140,0,0,29" TextWrapping="Wrap" Text="maxLon" VerticalAlignment="Bottom" Width="60" ToolTip="Maximum Longitude" Padding="1" TextAlignment="Center" FontSize="12" />
+        <TextBox x:Name="SUM_MaxY" HorizontalAlignment="Left" Height="20" Margin="79,35,0,0" TextWrapping="Wrap" Text="maxLat" VerticalAlignment="Top" Width="60" ToolTip="Maximum Latitude" Padding="1" TextAlignment="Center" FontSize="12"/>
+        <TextBox x:Name="StartLevel" HorizontalAlignment="Left" FontSize="12" Height="20" Margin="223,0,0,44" TextWrapping="Wrap" Text="SL" TextAlignment="Center" VerticalAlignment="Bottom" Width="30" Padding="1" ToolTip="Start level"  />
+        <TextBox x:Name="EndLevel" HorizontalAlignment="Left" FontSize="12" Height="20" Margin="223,0,0,14" TextWrapping="Wrap" Text="EL" TextAlignment="Center" VerticalAlignment="Bottom" Width="30" Padding="1" ToolTip="End level"  />
+        <TextBox Visibility="Hidden" x:Name="ThreatNum" HorizontalAlignment="Left" FontSize="10" Height="16" Margin="380,0,0,10" TextWrapping="Wrap" Text="1" VerticalAlignment="Bottom" Width="30" ToolTip="Threat number , must between 1 and 25" TextAlignment="Center" />
+        <Label x:Name="StatusLable" Content="" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" FontSize="12" Padding="0" Height="15"/>
+
+        <ProgressBar  x:Name="ProgressInfo" Visibility="Hidden" Height="12" Grid.Row="1" Margin="10,0" VerticalAlignment="Top"/>
+        <Label Content="Function" VerticalAlignment="Top" Padding="0" Margin="278,38,9,0"/>
+        <ComboBox FontSize="12" x:Name="CBOX" Margin="332,36,0,0" VerticalAlignment="Top" Height="20" HorizontalAlignment="Left" Width="157">
+            <ComboBoxItem IsSelected="True" Content="MongoDB To KQDB"/>
+            <ComboBoxItem Content="MongoDB To File"/>
+            <ComboBoxItem Content="Get Partial MongoDB"/>
+        </ComboBox>
+
+        <!--<ScrollViewer HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Grid.Row="1" Height="78" Width="190" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" BorderThickness="2" BorderBrush="#FE0000">
+			<TextBlock x:Name="DBName" Padding="4,2,0,2" TextWrapping="Wrap" Text="" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+		</ScrollViewer>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Margin="10,45,0,0"  VerticalAlignment="Top" Grid.Row="1" Height="78" Width="190"/>-->
+
+
+        <Label Content="Database List" Grid.Row="1" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,17,0,0"></Label>
+        <TabControl Padding="0"  Margin="10,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="130" Width="200" Grid.Row="1" SelectionChanged="DBNames_SelectionChanged">
+            <TabItem Header="SourceDB">
+                <Grid Margin="1">
+                    <ListBox Visibility="Hidden" x:Name="listBoxSourceDB"/>
+                    <TreeView Name="SourceTree" >
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="14" Height="14" Source="pic\database.png" Margin="0,0,5,0" />
+                                    <TextBlock Text="{Binding Title}"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                            <DataTemplate DataType="{x:Type self:MenuChildItem}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="14" Height="14" Source="pic\file.png" Margin="0,0,5,0" />
+                                    <TextBlock Text="{Binding Title}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </TreeView.Resources>
+                    </TreeView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TargetDB">
+                <Grid Margin="1">
+                    <ListBox Visibility="Hidden" x:Name="listBoxTargetDB" />
+                    <TreeView Name="TargetTree" >
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type self:MenuItem}" ItemsSource="{Binding Items}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="14" Height="14" Source="pic\database.png" Margin="0,0,5,0" />
+                                    <TextBlock Text="{Binding Title}"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                            <DataTemplate DataType="{x:Type self:MenuChildItem}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="14" Height="14" Source="pic\file.png" Margin="0,0,5,0" />
+                                    <TextBlock Text="{Binding Title}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </TreeView.Resources>
+                    </TreeView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <TabControl Padding="0"  HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top" Height="150" Width="280" Grid.Row="1" >
+            <TabItem  Header="Detiles" >
+                <Grid Margin="1" Background="{DynamicResource WindowBackgroundBrush}">
+                    <Label Name="SpeedLabel" Content="Tiles Data Transforming Tool" FontSize="16" Padding="0" HorizontalAlignment="Center" Margin="0,14,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                    <Label Name="SpeedLabel1" Content="XScope" Padding="0" FontSize="14" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="ProgressLabel" Content="2011" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,58,142,0"   Padding="1"/>
+                    <Label x:Name="ProgressLabel1" Content="2016" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="142,58,0,0"   Padding="1"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Config" >
+                <Grid Margin="1" Background="{DynamicResource WindowBackgroundBrush}">
+                    <ListBox FontSize="10" x:Name="listBoxConfig" Margin="4,4,4,28" ScrollViewer.HorizontalScrollBarVisibility="Hidden" />
+                    <Label Content="Continue an unfinishid task with a " Padding="0" Margin="5,0,0,6" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <Button Content="Config file" Click="Button_Click" Margin="202,0,0,4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="70"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Setting" >
+                <Grid Margin="1" Background="{DynamicResource WindowBackgroundBrush}">
+                    <GroupBox Header="'Get Partial MongoDB'" Height="117" Margin="2,8,2,0" VerticalAlignment="Top"/>
+                    <Label Content="Befor task completed, you should provide a " Padding="0" Margin="11,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Content="mongoexport.exe" VerticalAlignment="Top" Click="Button_Click_2"  HorizontalAlignment="Left" Margin="31,47,0,0" ></Button>
+                    <Label Content=", then you can choose" Padding="0" Margin="137,49,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Image Width="18" Height="18" Source="pic\exe.png" Margin="12,48,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" ></Image>
+                    <CheckBox Name="CheckExport" Content="Export partial MongoDB after Complete" Foreground="#B9CDF6" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,69,0,0" ></CheckBox>
+                    <Label Content="to export partial database or a manual way" Padding="0" Margin="12,83,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Content="Export DB" Click="Button_Click_1"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,101,0,0" ></Button>
+                    <Label Content="Theme: " Padding="0" Margin="75,0,0,8" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="46"/>
+                    <ComboBox x:Name="themes" Height="20" VerticalAlignment="Bottom" Margin="119,0,0,6" SelectionChanged="themes_SelectionChanged" SelectedIndex="0" HorizontalAlignment="Left" Width="144" />
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+
+
+    </Grid>
+</Window>
